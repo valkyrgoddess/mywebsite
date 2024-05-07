@@ -1,0 +1,294 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Sitebuilder</title><link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&amp;subset=cyrillic,cyrillic-ext,latin-ext" rel="stylesheet"/><style class="js-loading-screen-item">.loading-screen * {
+        box-sizing: border-box;
+      }
+
+      .loading-screen {
+        --header-height: 48px;
+
+        box-sizing: border-box;
+        position: fixed;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        transition: 0.3s all ease;
+        display: grid;
+        grid-template-rows: auto 1fr;
+      }
+
+      .loading-screen-preloader {
+        position: fixed;
+        z-index: 12;
+        top: var(--header-height);
+        width: 100%;
+        height: 4px;
+        background-color: #f0f2f5;
+      }
+
+      .loading-screen-preloader__fill {
+        width: 0;
+        height: 100%;
+        background-color: #005ed9;
+        box-shadow: 0 2px 4px rgba(0, 94, 217, 0.2);
+        transition: width 175ms linear;
+      }
+
+      .loading-screen-preloader__fill[data-animation='stop'] {
+        display: none;
+      }
+
+      .loading-screen-header-row {
+        display: grid;
+        grid-auto-flow: column;
+        align-items: center;
+      }
+
+      .loading-screen-header {
+        --border-width: 1px;
+        --border-color: #f0f2f5;
+        --box-width: 24px;
+
+        justify-content: space-between;
+        gap: 8px;
+        height: var(--header-height);
+        padding: 0 8px;
+        border-bottom: var(--border-width) solid var(--border-color);
+        background-color: #ffffff;
+      }
+
+      .loading-screen-header-box {
+        position: relative;
+        overflow: hidden;
+        height: 24px;
+        border-radius: 2px;
+        background: #f7f8fa;
+      }
+
+      .loading-screen-header-box::before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          95deg,
+          #f7f8fa 0%,
+          #f0f2f5 51.91%,
+          rgba(247, 248, 250, 0.8) 100%
+        );
+        z-index: 1;
+        transform: translateX(-100%);
+        animation: skeletonFill 1s infinite;
+      }
+
+      .loading-screen-header__left {
+        gap: 8px;
+      }
+
+      .loading-screen-header__right {
+        gap: 16px;
+      }
+
+      .loading-screen-header__controls,
+      .loading-screen-header__actions {
+        grid-template-columns: repeat(3, var(--box-width));
+        gap: 8px;
+      }
+
+      .loading-screen-header__menu {
+        grid-template-columns: var(--box-width);
+        gap: 8px;
+      }
+
+      .loading-screen-header__nav {
+        grid-template-columns: var(--box-width);
+      }
+
+      .loading-screen-header__locales {
+        width: var(--box-width);
+      }
+
+      .loading-screen-header__logo,
+      .loading-screen-header__divider,
+      .loading-screen-header__action:nth-child(4),
+      .loading-screen-header__nav-item:not(:first-child) {
+        display: none;
+      }
+
+      .loading-screen-loader {
+        position: absolute;
+        top: calc(50% + var(--header-height));
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .loading-screen-loader__spinner {
+        --offset: calc(var(--spinner-size) / 2 * -1);
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 2;
+        margin: var(--offset) 0 0 var(--offset);
+        width: var(--spinner-size);
+        height: var(--spinner-size);
+      }
+
+      .loading-screen-loader__spinner--small {
+        --spinner-size: 56px;
+
+        animation: rotateSpinnerSmall 1s linear infinite;
+      }
+
+      .loading-screen-loader__spinner--big {
+        --spinner-size: 100px;
+
+        animation: rotateSpinnerBig 2s linear infinite;
+      }
+
+      .loading-screen-loader__circle {
+        stroke: #005ed9;
+        stroke-linecap: round;
+        animation: circleDash 2s cubic-bezier(0.98, 0.94, 0.76, 1) infinite;
+      }
+
+      @media screen and (min-width: 576px) {
+        .loading-screen-header__left {
+          gap: 0;
+        }
+
+        .loading-screen-header__divider {
+          display: block;
+          width: var(--border-width);
+          height: var(--header-height);
+          background-color: var(--border-color);
+        }
+
+        .loading-screen-header__locales {
+          margin: 0 8px;
+        }
+
+        .loading-screen-header__menu {
+          padding-right: 8px;
+        }
+
+        .loading-screen-header__nav {
+          margin-left: 8px;
+        }
+
+        .loading-screen-header__right {
+          gap: 8px;
+        }
+      }
+
+      @media screen and (min-width: 768px) {
+        .loading-screen-header__nav {
+          gap: 28px;
+          margin-left: 24px;
+          grid-template-columns: 38px 67px 43px 33px 30px;
+        }
+
+        .loading-screen-header__nav-item:not(:first-child) {
+          display: block;
+        }
+      }
+
+      @media screen and (min-width: 992px) {
+        .loading-screen-header {
+          padding-left: 12px;
+          padding-right: 16px;
+        }
+
+        .loading-screen-header__logo {
+          display: block;
+        }
+
+        .loading-screen-header__menu {
+          grid-template-columns: var(--box-width) 49px;
+          padding-right: 16px;
+        }
+
+        .loading-screen-header__actions {
+          grid-template-columns: 70px 88px 78px;
+        }
+      }
+
+      @media screen and (min-width: 1200px) {
+        .loading-screen-header__actions {
+          grid-template-columns: 70px 99px 88px 78px;
+        }
+
+        .loading-screen-header__action:nth-child(4) {
+          display: block;
+        }
+      }
+
+      @keyframes rotateSpinnerBig {
+        0% {
+          transform: rotate(-180deg);
+        }
+        100% {
+          transform: rotate(180deg);
+        }
+      }
+
+      @keyframes rotateSpinnerSmall {
+        0% {
+          transform: rotate(40deg);
+        }
+        100% {
+          transform: rotate(400deg);
+        }
+      }
+
+      @keyframes circleDash {
+        0% {
+          stroke-dasharray: 1, 150;
+          stroke-dashoffset: 0;
+        }
+        50% {
+          stroke-dasharray: 110, 150;
+          stroke-dashoffset: -24;
+        }
+
+        90%,
+        100% {
+          stroke-dasharray: 100, 150;
+          stroke-dashoffset: -124;
+        }
+      }
+
+      @keyframes skeletonFill {
+        100% {
+          transform: translateX(100%);
+        }
+      }</style><script>window.__WS__BUILD_NUMBER = '3286';</script><script defer="defer" src="/js/browser-support.e7c08ae3cb2e41228c61.js"></script><script defer="defer" src="/js/bundle.5f0d478f600ca5dec2bf.js"></script><link href="/css/browser-support.ef1ac0781e59c1dbae2c.css" rel="stylesheet"><link href="/css/bundle.13d66368f3f876ffa5ca.css" rel="stylesheet"></head><body><div class="js-loading-screen-item"><div class="loading-screen"><div class="loading-screen-preloader"><div class="loading-screen-preloader__fill js-loading-screen-preloader-fill" data-progress="0"></div></div><div class="loading-screen-header loading-screen-header-row"><div class="loading-screen-header-row loading-screen-header__left"><div class="loading-screen-header__menu loading-screen-header-row"><div class="loading-screen-header-box"></div><div class="loading-screen-header-box loading-screen-header__logo"></div></div><div class="loading-screen-header__divider"></div><div class="loading-screen-header-box loading-screen-header__locales"></div><div class="loading-screen-header__divider"></div><div class="loading-screen-header__nav loading-screen-header-row"><div class="loading-screen-header-box loading-screen-header__nav-item"></div><div class="loading-screen-header-box loading-screen-header__nav-item"></div><div class="loading-screen-header-box loading-screen-header__nav-item"></div><div class="loading-screen-header-box loading-screen-header__nav-item"></div><div class="loading-screen-header-box loading-screen-header__nav-item"></div></div></div><div class="loading-screen-header-row loading-screen-header__right"><div class="loading-screen-header__divider"></div><div class="loading-screen-header-row loading-screen-header__controls"><div class="loading-screen-header-box"></div><div class="loading-screen-header-box"></div><div class="loading-screen-header-box"></div></div><div class="loading-screen-header__divider"></div><div class="loading-screen-header-row loading-screen-header__actions"><div class="loading-screen-header-box loading-screen-header__action"></div><div class="loading-screen-header-box loading-screen-header__action"></div><div class="loading-screen-header-box loading-screen-header__action"></div><div class="loading-screen-header-box loading-screen-header__action"></div></div></div></div><div class="loading-screen-loader"><svg class="loading-screen-loader__spinner loading-screen-loader__spinner--big" viewBox="0 0 50 50"><circle class="loading-screen-loader__circle" cx="25" cy="25" r="20" fill="none" stroke-width="4"></circle></svg> <svg class="loading-screen-loader__spinner loading-screen-loader__spinner--small" viewBox="0 0 50 50"><circle class="loading-screen-loader__circle" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg></div></div></div><div class="ws-browser-support-dialog" id="ws-browser-support-dialog" style="opacity: 0; visibility: hidden; pointer-events: none"><div class="ws-browser-support-dialog__container"><div class="ws-browser-support-dialog__header"><h1 id="ws-browser-support-dialog__title"></h1><p id="ws-browser-support-dialog__message"></p></div><div class="ws-browser-support-dialog__content"><a href="//www.google.com/chrome" class="ws-browser-item" target="_blank" rel="noopener noreferrer"><img src="/images/browser-icons/chrome.png" alt="Google Chrome"/><p>Google Chrome</p></a><a href="//support.apple.com/downloads/safari" class="ws-browser-item" target="_blank" rel="noopener noreferrer"><img src="/images/browser-icons/safari.png" alt="Safari"/><p>Safari</p></a><a href="//www.mozilla.com/firefox/" class="ws-browser-item" target="_blank" rel="noopener noreferrer"><img src="/images/browser-icons/firefox.png" alt="Firefox"/><p>Firefox</p></a><a href="//www.microsoft.com/windows/microsoft-edge" class="ws-browser-item" target="_blank" rel="noopener noreferrer"><img src="/images/browser-icons/ms-edge.png" alt="Microsoft Edge"/><p>Microsoft Edge</p></a></div></div><div class="ws-browser-support-dialog__footer"><button class="ws-browser-support-dialog__button" id="ws-browser-support-dialog__button"></button></div></div><div id="app"></div><script class="js-loading-screen-item">(() => {
+        let timer = null;
+        let progress = 0;
+        let oldProgress = progress;
+        const preloader = document.querySelector('.js-loading-screen-preloader-fill');
+        const getRandomInteger = (min, max) => {
+          min = Math.ceil(min);
+          max = Math.floor(max);
+
+          return Math.floor(Math.random() * (max - min) + min);
+        };
+
+        timer = setInterval(() => {
+          if (preloader.getAttribute('data-animation') === 'stop') {
+            clearInterval(timer);
+            return;
+          }
+
+          const diff = getRandomInteger(1, 10);
+          progress = Math.min(oldProgress + diff, 60);
+          preloader.style.width = `${progress}%`;
+          preloader.setAttribute('data-progress', progress);
+          oldProgress = progress;
+        }, 2000);
+      })();</script></body></html>
